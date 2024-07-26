@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:52:30 by yublee            #+#    #+#             */
-/*   Updated: 2024/05/31 19:03:30 by yublee           ###   ########.fr       */
+/*   Updated: 2024/07/26 23:40:20 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@
 // times, the simulation stops. If not specified, the simulation stops when a
 // philosopher dies.
 
+
 // memset, printf, malloc, free, write,
 // usleep, gettimeofday, pthread_create,
 // pthread_detach, pthread_join, pthread_mutex_init,
 // pthread_mutex_destroy, pthread_mutex_lock,
 // pthread_mutex_unlock
+
 
 #include "philosophers.h"
 
