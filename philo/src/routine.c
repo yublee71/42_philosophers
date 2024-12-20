@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 09:32:46 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/20 20:10:08 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/20 23:15:38 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	*routine(void *arg)
 	int				p_num;
 	unsigned long	s_time;
 	int				total_num;
+	unsigned long	start_starving_time;
+
 
 	th_info = (t_thread_info *)arg;
 	info = th_info->info;
@@ -36,8 +38,8 @@ void	*routine(void *arg)
 	// printf("s_time: %lu\n", s_time);
 	while (1)
 	{
-		thinking_start = get_timestamp() - s_time;
-		printf("%lu %d is thinking\n", thinking_start, p_num);
+		start_starving_time = get_timestamp() - s_time;
+		printf("%lu %d is thinking\n", start_starving_time, p_num);
 		if (p_num % 2 == 0)
 		{
 			pthread_mutex_lock(forks[p_num]);
