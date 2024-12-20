@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 22:02:58 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/20 20:28:39 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/20 23:40:51 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,18 @@ void	free_array(void **arr, int size)
 	free(arr);
 }
 
-unsigned long	get_timeduration(unsigned long start)
+unsigned long	get_timestamp(unsigned long start_time)
 {
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000 - start);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000 - start_time);
 }
 
-unsigned long	get_timestamp(void)
+unsigned long	get_realtimestamp(void)
 {
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
-
