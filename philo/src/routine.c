@@ -36,7 +36,8 @@ void	*routine(void *arg)
 	// printf("s_time: %lu\n", s_time);
 	while (1)
 	{
-		printf("%lu %d is thinking\n", get_timestamp() - s_time, p_num);
+		thinking_start = get_timestamp() - s_time;
+		printf("%lu %d is thinking\n", thinking_start, p_num);
 		if (p_num % 2 == 0)
 		{
 			pthread_mutex_lock(forks[p_num]);
@@ -74,7 +75,7 @@ void	*routine(void *arg)
 			pthread_mutex_unlock(forks[p_num]);
 		}
 		printf("%lu %d is sleeping\n", get_timestamp() - s_time, p_num);
-		usleep(info.t_to_sleep * 1000 + 30);
+		usleep(info.t_to_sleep * 1000);
 	}
 	return (NULL);
 }
