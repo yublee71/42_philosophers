@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 19:35:27 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/20 23:36:36 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 00:01:29 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static int	set_thread_infos(t_info info, t_table *table)
 		th_info->start_time = start_time;
 		th_info->start_starving_time = 0;
 		th_info->lock_acquired = 0;
+		th_info->is_done = table->is_done;
 		table->th_info_arr[i] = th_info;
 		i++;
 	}
@@ -89,8 +90,10 @@ t_table	*set_table(t_info info)
 	table->philos = (pthread_t **)malloc(sizeof(pthread_t *) * n_of_philos);
 	table->forks = (pthread_mutex_t **)malloc(sizeof(pthread_mutex_t *) * n_of_philos);
 	table->th_info_arr = (t_thread_info **)malloc(sizeof(t_thread_info *) * n_of_philos);
-	if (!table->philos || !table->forks || !table->th_info_arr)
+	table->is_done = (int *)malloc(sizeof(int));
+	if (!table->philos || !table->forks || !table->th_info_arr || !table->is_done)
 		return (NULL);
+	*(table->is_done) = 0;
 	if (set_forks(n_of_philos, table) < 0
 		|| set_philos(n_of_philos, table) < 0
 		|| set_thread_infos(info, table) < 0)

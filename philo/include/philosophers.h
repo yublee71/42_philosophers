@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:51:45 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/20 23:47:09 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 00:01:52 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_thread_info
 {
 	t_info			info;
 	pthread_mutex_t	**forks;
+	int				*is_done;
 	int				philo_num;
 	unsigned long	start_time;
 	unsigned long	start_starving_time;
@@ -43,6 +44,7 @@ typedef struct s_table
 	pthread_t		**philos;
 	pthread_mutex_t	**forks;
 	t_thread_info	**th_info_arr;
+	int				*is_done;
 }	t_table;
 
 t_info	set_info(int argc, char **argv);
@@ -50,7 +52,7 @@ t_table	*set_table(t_info info);
 
 void	init_table(t_table *table, int n_of_philos);
 void	*routine(void *arg);
-// void	*time_logger(void *arg);
+void	*time_logger(void *arg);
 void	cleanup_table(t_table *table, int n_of_philos);
 
 //utils
