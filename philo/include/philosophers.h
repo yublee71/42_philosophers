@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:51:45 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/20 20:05:46 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/20 20:28:49 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	cleanup_table(t_table *table, int n_of_philos);
 //utils
 int				ft_atoi(const char *nptr);
 void			free_array(void **arr, int size);
+unsigned long	get_timeduration(unsigned long start);
 unsigned long	get_timestamp(void);
 
 #endif
