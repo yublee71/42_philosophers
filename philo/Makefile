@@ -6,7 +6,7 @@
 #    By: yublee <yublee@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/19 14:55:22 by yublee            #+#    #+#              #
-#    Updated: 2024/05/22 23:07:25 by yublee           ###   ########.fr        #
+#    Updated: 2024/12/20 19:57:45 by yublee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,13 @@ INCLUDE = -I include/
 
 NAME = philo
 
-SRC = src/main.c \
+SRC = \
+		src/main.c \
+		src/info.c \
+		src/init.c \
+		src/routine.c \
+		src/cleanup.c \
+		src/utils.c \
 
 OBJ = $(SRC:%.c=$(BUILD_DIR)/%.o)
 

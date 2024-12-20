@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/17 21:53:49 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/20 20:04:20 by yublee           ###   ########.fr       */
+/*   Created: 2024/12/17 23:16:55 by yublee            #+#    #+#             */
+/*   Updated: 2024/12/20 20:00:04 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-int	main(int argc, char **argv)
+void	init_table(t_table *table, int n_of_philos)
 {
-	t_info			info;
-	t_table			*table;
-	int				n_of_philos;
+	int				i;
 
-	if (argc == 5 || argc == 6)
+	i = 0;
+	while (i < n_of_philos)
+		pthread_mutex_init(table->forks[i++], NULL);
+	i = 0;
+	while (i < n_of_philos)
 	{
-		info = set_info(argc, argv);
-		table = set_table(info);
-		if (!table)
-			return (1);
-		n_of_philos = info.n_of_philos;
-		init_table(table, n_of_philos);
-		cleanup_table(table, n_of_philos);
+		pthread_create(table->philos[i], NULL, &routine, (void *)table->th_info_arr[i]);
+		i++;
 	}
-	return (1);
 }
