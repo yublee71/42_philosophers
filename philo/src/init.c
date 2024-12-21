@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:16:55 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 18:11:37 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 21:33:56 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static int	init_philos(t_table *table, int n)
 			return (-1);
 		philo->id = i;
 		philo->table = table;
+		philo->n_of_eating = 0;
 		table->philos[i] = philo;
 		i++;
 	}

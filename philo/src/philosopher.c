@@ -50,6 +50,7 @@ static int	eat_philo(int id, unsigned long t, t_table *table, t_philo *philo)
 	}
 	pthread_mutex_lock(&table->death_mutex);
 	philo->last_eating_time = get_current_time_in_ms();
+	philo->n_of_eating++;
 	pthread_mutex_unlock(&table->death_mutex);
 	print_msg(table, get_timestamp(s_time), id, EATING);
 	usleep(t * 1000);
@@ -91,6 +92,25 @@ static int	is_anyone_dead(t_table *table)
 	return (0);
 }
 
+static int	is_everyone_full(t_table *table)
+{
+	int		i;
+	int		n;
+	t_philo	**philos;
+
+	i = 0;
+	n = table->info.n_of_philos;
+	philos = table->philos;
+	pthread_mutex_lock(&table->death_mutex);
+	while (i < n && table->info.n_of_times_to_eat) //TODO: if 0
+		if (philos[i++]->n_of_eating != table->info.n_of_times_to_eat)
+			break ;
+	pthread_mutex_unlock(&table->death_mutex);
+	if (i == n)
+		return (1);
+	return (0);
+}
+
 void	*philosopher(void *arg)
 {
 	t_philo			*philo;
@@ -104,7 +124,7 @@ void	*philosopher(void *arg)
 	id = philo->id;
 	s_time = table->start_time;
 	info = table->info;
-	while (!is_anyone_dead(table))
+	while (!is_everyone_full(table) && !is_anyone_dead(table))
 	{
 		print_msg(table, get_timestamp(s_time), id, THINKING);
 		if (eat_philo(id, info.t_to_eat, table, philo) < 0)

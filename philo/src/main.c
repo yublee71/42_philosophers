@@ -64,7 +64,7 @@ static int	get_info(int argc, char **argv, t_info *info)
 	info->t_to_eat = (unsigned long)ft_atoi(argv[3]);
 	info->t_to_sleep = (unsigned long)ft_atoi(argv[4]);
 	if (argc == 6)
-		info->n_of_times_to_eat = (unsigned long)ft_atoi(argv[5]);
+		info->n_of_times_to_eat = ft_atoi(argv[5]);
 	else
 		info->n_of_times_to_eat = 0;
 	return (0);

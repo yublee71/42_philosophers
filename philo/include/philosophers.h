@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:51:45 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 18:42:31 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 21:39:35 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_info
 	unsigned long	t_to_die;
 	unsigned long	t_to_eat;
 	unsigned long	t_to_sleep;
-	unsigned long	n_of_times_to_eat;
+	int				n_of_times_to_eat;
 }	t_info;
 
 typedef struct s_table
@@ -47,6 +47,7 @@ typedef struct s_philo
 	pthread_t		philo_th;
 	int				id;
 	unsigned long	last_eating_time;
+	int				n_of_eating;
 }	t_philo;
 
 typedef enum e_action
