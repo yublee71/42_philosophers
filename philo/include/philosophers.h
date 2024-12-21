@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:51:45 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 18:11:39 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 18:42:31 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_table
 	int				*forks; //malloc
 	struct s_philo	**philos; //malloc
 	int				is_dead;
-	pthread_t		time_logger_th;
+	pthread_t		timelogger_th;
 	pthread_mutex_t	*forks_mutex; //malloc
 	pthread_mutex_t	death_mutex;
 	pthread_mutex_t	print_mutex;
@@ -67,5 +67,6 @@ void	free_table(t_table *table);
 int				ft_atoi(const char *nptr);
 unsigned long	get_timestamp(unsigned long start_time);
 unsigned long	get_current_time_in_ms(void);
+void			print_msg(t_table *table, unsigned long time, int id, t_action a);
 
 #endif

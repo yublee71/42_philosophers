@@ -26,6 +26,7 @@ static void	cleanup_table(t_table *table)
 		pthread_join(philos[i]->philo_th, NULL);
 		i++;
 	}
+	pthread_join(table->timelogger_th, NULL);
 	//TODO: destroy mutex
 }
 
@@ -47,7 +48,7 @@ static void	start_table(t_table *table)
 		pthread_create(&philos[i]->philo_th, NULL, &philosopher, (void *)philos[i]); //TODO: error check;
 		i++;
 	}
-	pthread_create(&table->time_logger_th, NULL, &timelogger, (void *)table); //TODO: error check;
+	pthread_create(&table->timelogger_th, NULL, &timelogger, (void *)table); //TODO: error check;
 }
 
 static int	get_info(int argc, char **argv, t_info *info)
