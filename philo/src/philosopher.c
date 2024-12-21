@@ -24,7 +24,6 @@ static int	eat_philo(int id, unsigned long t, t_table *table, t_philo *philo)
 	forks = table->forks;
 	s_time = table->start_time;
 	total_num = table->info.n_of_philos;
-	// printf("timetoeat: %lu\n", t);
 	if (id % 2 == 0)
 	{
 		pthread_mutex_lock(&forks_mutex[id]);
@@ -97,8 +96,6 @@ void	*philosopher(void *arg)
 	t_philo			*philo;
 	t_table			*table;
 	int				id;
-	// int				i;
-	// int				n;
 	unsigned long	s_time;
 	t_info			info;
 
@@ -107,7 +104,6 @@ void	*philosopher(void *arg)
 	id = philo->id;
 	s_time = table->start_time;
 	info = table->info;
-	// n = info.n_of_philos;
 	while (!is_anyone_dead(table))
 	{
 		print_msg(table, get_timestamp(s_time), id, THINKING);
