@@ -12,12 +12,10 @@
 
 #include "../include/philosophers.h"
 
-
-
 int	main(int argc, char **argv)
 {
-	t_info			info;
-	t_table			table;
+	t_info	info;
+	t_table	table;
 
 	if (init_info(argc, argv, &info) < 0
 		|| init_table(&table, info) < 0)
