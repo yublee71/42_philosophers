@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:51:45 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 17:54:05 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 18:11:39 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_philo
 {
 	t_table			*table;
 	pthread_t		philo_th;
-	int				philo_num;
+	int				id;
 	unsigned long	last_eating_time;
 }	t_philo;
 

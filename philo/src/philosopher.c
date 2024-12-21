@@ -6,17 +6,17 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:38:55 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 17:56:45 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 18:10:26by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-static void	print_msg(t_table *table, unsigned long time, int p_num, t_action a)
+static void	print_msg(t_table *table, unsigned long time, int id, t_action a)
 {
 	pthread_mutex_lock(&table->print_mutex);
 	printf("%lu ", time);
-	printf("%d ", p_num);
+	printf("%d ", id);
 	if (a == DIED)
 		printf("%s", "died\n");
 	else if (a == THINKING)
@@ -30,68 +30,84 @@ static void	print_msg(t_table *table, unsigned long time, int p_num, t_action a)
 	pthread_mutex_unlock(&table->print_mutex);
 }
 
+static void	eat_philo(int id, unsigned long t, t_table *table, t_philo *philo)
+{
+	int				*forks;
+	pthread_mutex_t	*forks_mutex;
+	unsigned long	s_time;
+	int				total_num;
+
+	forks_mutex = table->forks_mutex;
+	forks = table->forks;
+	s_time = table->start_time;
+	total_num = table->info.n_of_philos;
+	if (id % 2 == 0)
+	{
+		pthread_mutex_lock(&forks_mutex[id]);
+		forks[id] = 1;
+		print_msg(table, get_timestamp(s_time), id, FORK);
+		if (id == (id + 1) % total_num)
+			return ;//TODO: modify
+		pthread_mutex_lock(&forks_mutex[(id + 1) % total_num]);
+		forks[(id + 1) % total_num] = 1;
+		print_msg(table, get_timestamp(s_time), id, FORK);
+	}
+	else
+	{
+		usleep(t * 20);
+		pthread_mutex_lock(&forks_mutex[(id + 1) % total_num]);
+		forks[(id + 1) % total_num] = 1;
+		print_msg(table, get_timestamp(s_time), id, FORK);
+		pthread_mutex_lock(&forks_mutex[id]);
+		forks[id] = 1;
+		print_msg(table, get_timestamp(s_time), id, FORK);
+	}
+	philo->last_eating_time = get_current_time_in_ms();
+	print_msg(table, get_timestamp(s_time), id, EATING);
+	usleep(t * 1000);
+	if (id % 2 == 0)
+	{
+		pthread_mutex_unlock(&forks_mutex[id]);
+		forks[id] = 0;
+		pthread_mutex_unlock(&forks_mutex[(id + 1) % total_num]);
+		forks[(id + 1) % total_num] = 0;
+	}
+	else
+	{
+		pthread_mutex_unlock(&forks_mutex[(id + 1) % total_num]);
+		forks[(id + 1) % total_num] = 0;
+		pthread_mutex_unlock(&forks_mutex[id]);
+		forks[id] = 0;
+	}
+}
+
+static void	sleep_philo(int id, unsigned long t_to_sleep, t_table *table)
+{
+	unsigned long	s_time;
+
+	s_time = table->start_time;
+	print_msg(table, get_timestamp(s_time), id, SLEEPING);
+	usleep(t_to_sleep * 1000);
+}
+
 void	*philosopher(void *arg)
 {
 	t_philo			*philo;
-	int				p_num;
 	t_table			*table;
+	int				id;
 	unsigned long	s_time;
-	int				*forks;
-	pthread_mutex_t	*forks_mutex;
 	t_info			info;
-	int				total_num;
 
 	philo = (t_philo *)arg;
-	p_num = philo->philo_num;
 	table = philo->table;
+	id = philo->id;
 	s_time = table->start_time;
-	forks_mutex = table->forks_mutex;
-	forks = table->forks;
 	info = table->info;
-	total_num = info.n_of_philos;
 	while (1)
 	{
-		print_msg(table, get_timestamp(s_time), p_num, THINKING);
-		if (p_num % 2 == 0)
-		{
-			pthread_mutex_lock(&forks_mutex[p_num]);
-			forks[p_num] = 1;
-			print_msg(table, get_timestamp(s_time), p_num, FORK);
-			if (p_num == (p_num + 1) % total_num)
-				break ;
-			pthread_mutex_lock(&forks_mutex[(p_num + 1) % total_num]);
-			forks[(p_num + 1) % total_num] = 1;
-			print_msg(table, get_timestamp(s_time), p_num, FORK);
-		}
-		else
-		{
-			usleep(info.t_to_eat * 10);
-			pthread_mutex_lock(&forks_mutex[(p_num + 1) % total_num]);
-			forks[(p_num + 1) % total_num] = 1;
-			print_msg(table, get_timestamp(s_time), p_num, FORK);
-			pthread_mutex_lock(&forks_mutex[p_num]);
-			forks[p_num] = 1;
-			print_msg(table, get_timestamp(s_time), p_num, FORK);
-		}
-		philo->last_eating_time = get_current_time_in_ms();
-		print_msg(table, get_timestamp(s_time), p_num, EATING);
-		usleep(info.t_to_eat * 1000);
-		if (p_num % 2 == 0)
-		{
-			pthread_mutex_unlock(&forks_mutex[p_num]);
-			forks[p_num] = 0;
-			pthread_mutex_unlock(&forks_mutex[(p_num + 1) % total_num]);
-			forks[(p_num + 1) % total_num] = 0;
-		}
-		else
-		{
-			pthread_mutex_unlock(&forks_mutex[(p_num + 1) % total_num]);
-			forks[(p_num + 1) % total_num] = 0;
-			pthread_mutex_unlock(&forks_mutex[p_num]);
-			forks[p_num] = 0;
-		}
-		print_msg(table, get_timestamp(s_time), p_num, SLEEPING);
-		usleep(info.t_to_sleep * 1000);
+		print_msg(table, get_timestamp(s_time), id, THINKING);
+		eat_philo(id, info.t_to_eat, table, philo);
+		sleep_philo(id, info.t_to_sleep, table);
 	}
 	return (NULL);
 }
