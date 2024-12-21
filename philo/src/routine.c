@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 09:32:46 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 01:01:59 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 12:35:16 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ void	*time_logger(void *arg)
 				&& get_timestamp(th_info->start_starving_time) >= info.t_to_die)
 			{
 				printf("%lu %d died\n", get_timestamp(th_info->start_time), th_info->philo_num);
+				pthread_mutex_lock(table->time_mutex);
 				*(table->is_done) = 1;
+				pthread_mutex_unlock(table->time_mutex);
+				cleanup_table(table, n_of_philos);
 				return (NULL);
 			}
 			i++;
@@ -48,13 +51,15 @@ void	*routine(void *arg)
 {
 	t_thread_info	*th_info;
 	t_info			info;
-	pthread_mutex_t	**forks;
+	pthread_mutex_t	**forks_mutex;
+	int				*forks;
 	int				p_num;
 	unsigned long	s_time;
 	int				total_num;
 
 	th_info = (t_thread_info *)arg;
 	info = th_info->info;
+	forks_mutex = th_info->forks_mutex;
 	forks = th_info->forks;
 	p_num = th_info->philo_num;
 	s_time = th_info->start_time;
@@ -66,14 +71,25 @@ void	*routine(void *arg)
 	// printf("p_num: %d\n", p_num);
 	// printf("total_num: %d\n", total_num);
 	// printf("s_time: %lu\n", s_time);
-	while (!*(th_info->is_done))
+	while (1)
 	{
+		pthread_mutex_lock(th_info->time_mutex);
+		if (*(th_info->is_done))
+		{
+			pthread_mutex_unlock(th_info->time_mutex);
+			break;
+		}
+		pthread_mutex_unlock(th_info->time_mutex);
 		printf("%lu %d is thinking\n", get_timestamp(s_time), p_num);
 		if (p_num % 2 == 0)
 		{
-			pthread_mutex_lock(forks[p_num]);
+			pthread_mutex_lock(forks_mutex[p_num]);
+			forks[p_num] = 1;
 			printf("%lu %d has taken a fork\n", get_timestamp(s_time), p_num);
-			pthread_mutex_lock(forks[(p_num + 1) % total_num]);
+			if (p_num == (p_num + 1) % total_num)
+				break ;
+			pthread_mutex_lock(forks_mutex[(p_num + 1) % total_num]);
+			forks[(p_num + 1) % total_num] = 1;
 			printf("%lu %d has taken a fork\n", get_timestamp(s_time), p_num);
 		}
 		//3 -> 0: 0,2 / 2: 2,1
@@ -83,34 +99,34 @@ void	*routine(void *arg)
 		else
 		{
 			usleep(info.t_to_eat * 10);
-			pthread_mutex_lock(forks[(p_num + 1) % total_num]);
+			pthread_mutex_lock(forks_mutex[(p_num + 1) % total_num]);
+			forks[(p_num + 1) % total_num] = 1;
 			printf("%lu %d has taken a fork\n", get_timestamp(s_time), p_num);
-			pthread_mutex_lock(forks[p_num]);
+			pthread_mutex_lock(forks_mutex[p_num]);
+			forks[p_num] = 1;
 			printf("%lu %d has taken a fork\n", get_timestamp(s_time), p_num);
 		}
-		if (*(th_info->is_done))
-			break ;
 		th_info->lock_acquired = 1;
 		th_info->start_starving_time = get_realtimestamp();
 		printf("%lu %d is eating\n", get_timestamp(s_time), p_num);
 		usleep(info.t_to_eat * 1000);
-		if (*(th_info->is_done))
-			break ;
 		if (p_num % 2 == 0)
 		{
-			pthread_mutex_unlock(forks[p_num]);
-			pthread_mutex_unlock(forks[(p_num + 1) % total_num]);
+			pthread_mutex_unlock(forks_mutex[p_num]);
+			forks[p_num] = 0;
+			pthread_mutex_unlock(forks_mutex[(p_num + 1) % total_num]);
+			forks[(p_num + 1) % total_num] = 0;
 		}
 		else
 		{
-			pthread_mutex_unlock(forks[(p_num + 1) % total_num]);
-			pthread_mutex_unlock(forks[p_num]);
+			pthread_mutex_unlock(forks_mutex[(p_num + 1) % total_num]);
+			forks[(p_num + 1) % total_num] = 0;
+			pthread_mutex_unlock(forks_mutex[p_num]);
+			forks[p_num] = 0;
 		}
 		th_info->lock_acquired = 0;
 		printf("%lu %d is sleeping\n", get_timestamp(s_time), p_num);
 		usleep(info.t_to_sleep * 1000);
-		if (*(th_info->is_done))
-			break ;
 	}
 	return (NULL);
 }
