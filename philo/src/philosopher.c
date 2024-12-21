@@ -102,7 +102,7 @@ static int	is_everyone_full(t_table *table)
 	n = table->info.n_of_philos;
 	philos = table->philos;
 	pthread_mutex_lock(&table->death_mutex);
-	while (i < n && table->info.n_of_times_to_eat) //TODO: if 0
+	while (i < n && table->info.n_of_times_to_eat)
 		if (philos[i++]->n_of_eating != table->info.n_of_times_to_eat)
 			break ;
 	pthread_mutex_unlock(&table->death_mutex);
