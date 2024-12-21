@@ -12,62 +12,69 @@
 
 #include "../include/philosophers.h"
 
-
-static int	eat_philo(int id, unsigned long t, t_table *table, t_philo *philo)
+static int	pick_up_forks(int id, int t_num, unsigned long t, t_table *table)
 {
-	int				*forks;
-	pthread_mutex_t	*forks_mutex;
-	unsigned long	s_time;
-	int				total_num;
-
-	forks_mutex = table->forks_mutex;
-	forks = table->forks;
-	s_time = table->start_time;
-	total_num = table->info.n_of_philos;
 	if (id % 2 == 0)
 	{
 		usleep(t * 10);
-		pthread_mutex_lock(&forks_mutex[id]);
-		forks[id] = 1;
-		print_msg(table, get_timestamp(s_time), id, FORK);
-		if (total_num == 1)
+		pthread_mutex_lock(&table->forks_mutex[id]);
+		table->forks[id] = 1;
+		print_msg(table, get_timestamp(table->start_time), id, FORK);
+		if (t_num == 1)
 		{
-			pthread_mutex_unlock(&forks_mutex[id]);
+			pthread_mutex_unlock(&table->forks_mutex[id]);
 			return (-1);
 		}
-		pthread_mutex_lock(&forks_mutex[(id + 1) % total_num]);
-		forks[(id + 1) % total_num] = 1;
-		print_msg(table, get_timestamp(s_time), id, FORK);
+		pthread_mutex_lock(&table->forks_mutex[(id + 1) % t_num]);
+		table->forks[(id + 1) % t_num] = 1;
+		print_msg(table, get_timestamp(table->start_time), id, FORK);
 	}
 	else
 	{
-		pthread_mutex_lock(&forks_mutex[(id + 1) % total_num]);
-		forks[(id + 1) % total_num] = 1;
-		print_msg(table, get_timestamp(s_time), id, FORK);
-		pthread_mutex_lock(&forks_mutex[id]);
-		forks[id] = 1;
-		print_msg(table, get_timestamp(s_time), id, FORK);
+		pthread_mutex_lock(&table->forks_mutex[(id + 1) % t_num]);
+		table->forks[(id + 1) % t_num] = 1;
+		print_msg(table, get_timestamp(table->start_time), id, FORK);
+		pthread_mutex_lock(&table->forks_mutex[id]);
+		table->forks[id] = 1;
+		print_msg(table, get_timestamp(table->start_time), id, FORK);
 	}
+	return (0);
+}
+
+static void	put_down_forks(int id, int t_num, t_table *table)
+{
+	if (id % 2 == 0)
+	{
+		table->forks[id] = 0;
+		pthread_mutex_unlock(&table->forks_mutex[id]);
+		table->forks[(id + 1) % t_num] = 0;
+		pthread_mutex_unlock(&table->forks_mutex[(id + 1) % t_num]);
+	}
+	else
+	{
+		table->forks[(id + 1) % t_num] = 0;
+		pthread_mutex_unlock(&table->forks_mutex[(id + 1) % t_num]);
+		table->forks[id] = 0;
+		pthread_mutex_unlock(&table->forks_mutex[id]);
+	}
+}
+
+static int	eat_philo(int id, unsigned long t, t_table *table, t_philo *philo)
+{
+	unsigned long	s_time;
+	int				total_num;
+
+	s_time = table->start_time;
+	total_num = table->info.n_of_philos;
+	if (pick_up_forks(id, total_num, t, table) < 0)
+		return (-1);
 	pthread_mutex_lock(&table->death_mutex);
 	philo->last_eating_time = get_current_time_in_ms();
 	philo->n_of_eating++;
 	pthread_mutex_unlock(&table->death_mutex);
 	print_msg(table, get_timestamp(s_time), id, EATING);
 	usleep(t * 1000);
-	if (id % 2 == 0)
-	{
-		forks[id] = 0;
-		pthread_mutex_unlock(&forks_mutex[id]);
-		forks[(id + 1) % total_num] = 0;
-		pthread_mutex_unlock(&forks_mutex[(id + 1) % total_num]);
-	}
-	else
-	{
-		forks[(id + 1) % total_num] = 0;
-		pthread_mutex_unlock(&forks_mutex[(id + 1) % total_num]);
-		forks[id] = 0;
-		pthread_mutex_unlock(&forks_mutex[id]);
-	}
+	put_down_forks(id, total_num, table);
 	return (0);
 }
 
