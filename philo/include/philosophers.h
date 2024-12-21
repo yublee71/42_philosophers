@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:51:45 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 23:46:31 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 23:13:49 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ typedef struct s_info
 typedef struct s_table
 {
 	t_info			info;
-	int				*forks; //malloc
-	struct s_philo	**philos; //malloc
+	int				*forks;
+	struct s_philo	**philos;
 	int				is_dead;
 	pthread_t		timelogger_th;
-	pthread_mutex_t	*forks_mutex; //malloc
+	pthread_mutex_t	*forks_mutex;
 	pthread_mutex_t	death_mutex;
 	pthread_mutex_t	print_mutex;
-	unsigned long	start_time;
+	unsigned long	start;
 }	t_table;
 
 typedef struct s_philo
@@ -60,26 +60,26 @@ typedef enum e_action
 }	t_action;
 
 //initiation
-int		init_info(int argc, char **argv, t_info *info);
-int		init_table(t_table *table, t_info info);
+int				init_info(int argc, char **argv, t_info *info);
+int				init_table(t_table *table, t_info info);
 
 //simulation
-int		start_table_simulation(t_table *table);
-void	cleanup_table_simulation(t_table *table);
+int				start_table_simulation(t_table *table);
+void			cleanup_table_simulation(t_table *table);
 
 //thread routine functions
-void	*philosopher(void *arg);
-void	*timelogger(void *arg);
+void			*philosopher(void *arg);
+void			*timelogger(void *arg);
 
 //table utils
-void	free_table(t_table *table);
-void	print_msg(t_table *table, unsigned long time, int id, t_action a);
-int		is_table_active(t_table *table);
-int		is_everyone_full(t_table *table);
+void			free_table(t_table *table);
+void			print_msg(t_table *table, unsigned long t, int id, t_action a);
+int				is_table_active(t_table *table);
+int				is_everyone_full(t_table *table);
 
 //utils
 int				ft_atoi(const char *nptr);
-unsigned long	get_timestamp(unsigned long start_time);
+unsigned long	get_timestamp(unsigned long start);
 unsigned long	get_current_time_in_ms(void);
 
 #endif

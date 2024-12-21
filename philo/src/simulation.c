@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 23:15:47 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 23:48:00 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 23:13:49 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	cleanup_table_simulation(t_table *table)
 	pthread_mutex_t	*forks_mutex;
 	int				i;
 	int				n;
-	
+
 	philos = table->philos;
 	forks_mutex = table->forks_mutex;
 	n = table->info.n_of_philos;
@@ -40,9 +40,9 @@ int	start_table_simulation(t_table *table)
 	t_philo			**philos;
 	int				i;
 	int				n;
-	
+
 	s_time = get_current_time_in_ms();
-	table->start_time = s_time;
+	table->start = s_time;
 	philos = table->philos;
 	n = table->info.n_of_philos;
 	i = 0;
@@ -50,12 +50,12 @@ int	start_table_simulation(t_table *table)
 	{
 		philos[i]->last_eating_time = s_time;
 		if (pthread_create(&philos[i]->philo_th, NULL,
-			&philosopher, (void *)philos[i]) != 0)
+				&philosopher, (void *)philos[i]) != 0)
 			return (-1);
 		i++;
 	}
 	if (pthread_create(&table->timelogger_th, NULL,
-		&timelogger, (void *)table) != 0)
+			&timelogger, (void *)table) != 0)
 		return (-1);
 	return (0);
 }

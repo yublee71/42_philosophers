@@ -1,16 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   init_table.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:16:55 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 21:33:56 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 23:23:31 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
+
+static void	distroy_fork_mutex(t_table *table, int i)
+{
+	while (--i >= 0)
+		pthread_mutex_destroy(&table->forks_mutex[i]);
+}
 
 static int	init_mutex(t_table *table, int n)
 {
@@ -18,22 +24,21 @@ static int	init_mutex(t_table *table, int n)
 
 	i = -1;
 	while (++i < n)
+	{
 		if (pthread_mutex_init(&table->forks_mutex[i], NULL) != 0)
 		{
-			while (--i >= 0)
-				pthread_mutex_destroy(&table->forks_mutex[i]);
+			distroy_fork_mutex(table, i);
 			return (-1);
 		}
+	}
 	if (pthread_mutex_init(&table->death_mutex, NULL) != 0)
 	{
-		while (--i >= 0)
-			pthread_mutex_destroy(&table->forks_mutex[i]);
+		distroy_fork_mutex(table, i);
 		return (-1);
 	}
 	if (pthread_mutex_init(&table->print_mutex, NULL) != 0)
 	{
-		while (--i >= 0)
-			pthread_mutex_destroy(&table->forks_mutex[i]);
+		distroy_fork_mutex(table, i);
 		pthread_mutex_destroy(&table->death_mutex);
 		return (-1);
 	}
