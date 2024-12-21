@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 21:53:49 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 14:34:34 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 14:34:34by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv)
 		return (1);
 	if (init_table(&table, info) < 0)
 		return (1);
-	// start_table(table);
+	philosopher(&table);
 	// cleanup_table(table, n_of_philos);
 	return (0);
 }

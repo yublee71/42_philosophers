@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:51:45 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 14:36:12 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 16:57:41 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ typedef struct s_info
 typedef struct s_table
 {
 	t_info			info;
-	pthread_t		*philos;
-	int				*forks;
-	pthread_mutex_t	*forks_mutex;
+	int				*forks; //malloc
+	struct s_philo	**philos; //malloc
 	int				is_dead;
+	pthread_mutex_t	*forks_mutex; //malloc
 	pthread_mutex_t	death_mutex;
 	pthread_mutex_t	print_mutex;
 	unsigned long	start_time;
@@ -43,19 +43,21 @@ typedef struct s_table
 typedef struct s_philo
 {
 	t_table			*table;
+	pthread_t		philo_th;
 	int				philo_num;
 	unsigned long	last_eating_time;
 }	t_philo;
 
 int		init_table(t_table *table, t_info info);
-// void	*routine(void *arg);
+void	philosopher(t_table *table);
+void	*routine(void *arg);
 // void	*time_logger(void *arg);
 // void	cleanup_table(t_table *table, int n_of_philos);
+void	free_table(t_table *table);
 
 // //utils
 int				ft_atoi(const char *nptr);
-// void			free_array(void **arr, int size);
-// unsigned long	get_timestamp(unsigned long start_time);
-// unsigned long	get_realtimestamp(void);
+unsigned long	get_timestamp(unsigned long start_time);
+unsigned long	get_current_time_in_ms(void);
 
 #endif

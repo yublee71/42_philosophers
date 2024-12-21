@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 22:02:58 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 14:28:18 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 15:17:48 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,18 @@ int	ft_atoi(const char *nptr)
 	return (minus * nbr);
 }
 
-// void	free_array(void **arr, int size)
-// {
-// 	int	i;
+unsigned long	get_timestamp(unsigned long start_time)
+{
+	struct timeval	tv;
 
-// 	i = 0;
-// 	while (i < size)
-// 		free(arr[i++]);
-// 	free(arr);
-// }
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000 - start_time);
+}
 
-// unsigned long	get_timestamp(unsigned long start_time)
-// {
-// 	struct timeval	tv;
+unsigned long	get_current_time_in_ms(void)
+{
+	struct timeval	tv;
 
-// 	if (!start_time)
-// 		return (0);
-// 	gettimeofday(&tv, NULL);
-// 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000 - start_time);
-// }
-
-// unsigned long	get_realtimestamp(void)
-// {
-// 	struct timeval	tv;
-
-// 	gettimeofday(&tv, NULL);
-// 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-// }
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+}
