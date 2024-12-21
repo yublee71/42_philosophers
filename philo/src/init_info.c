@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 23:13:34 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 23:29:45 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 23:32:15 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	init_info(int argc, char **argv, t_info *info)
 	if (valid_input(argv) < 0)
 		return (-1);
 	info->n_of_philos = ft_atoi(argv[1]);
-	info->t_to_die = (unsigned long)ft_atoi(argv[2]); //TODO: compare with other values, in case of 0?
+	info->t_to_die = (unsigned long)ft_atoi(argv[2]);
 	info->t_to_eat = (unsigned long)ft_atoi(argv[3]);
 	info->t_to_sleep = (unsigned long)ft_atoi(argv[4]);
 	if (argc == 6)
