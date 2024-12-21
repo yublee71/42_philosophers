@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 23:15:47 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 23:16:47 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 23:48:00 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	cleanup_table_simulation(t_table *table)
 	free_table(table);
 }
 
-void	start_table_simulation(t_table *table)
+int	start_table_simulation(t_table *table)
 {
 	unsigned long	s_time;
 	t_philo			**philos;
@@ -49,8 +49,13 @@ void	start_table_simulation(t_table *table)
 	while (i < n)
 	{
 		philos[i]->last_eating_time = s_time;
-		pthread_create(&philos[i]->philo_th, NULL, &philosopher, (void *)philos[i]); //TODO: error check;
+		if (pthread_create(&philos[i]->philo_th, NULL,
+			&philosopher, (void *)philos[i]) != 0)
+			return (-1);
 		i++;
 	}
-	pthread_create(&table->timelogger_th, NULL, &timelogger, (void *)table); //TODO: error check;
+	if (pthread_create(&table->timelogger_th, NULL,
+		&timelogger, (void *)table) != 0)
+		return (-1);
+	return (0);
 }

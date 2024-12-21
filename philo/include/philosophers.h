@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:51:45 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 23:23:23 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 23:46:31 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int		init_info(int argc, char **argv, t_info *info);
 int		init_table(t_table *table, t_info info);
 
 //simulation
-void	start_table_simulation(t_table *table);
+int		start_table_simulation(t_table *table);
 void	cleanup_table_simulation(t_table *table);
 
 //thread routine functions

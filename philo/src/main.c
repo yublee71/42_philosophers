@@ -18,9 +18,9 @@ int	main(int argc, char **argv)
 	t_table	table;
 
 	if (init_info(argc, argv, &info) < 0
-		|| init_table(&table, info) < 0)
+		|| init_table(&table, info) < 0
+		|| start_table_simulation(&table) < 0)
 		return (1);
-	start_table_simulation(&table);
 	cleanup_table_simulation(&table);
 	return (0);
 }
