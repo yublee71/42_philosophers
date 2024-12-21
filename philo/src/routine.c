@@ -68,8 +68,6 @@ void	*routine(void *arg)
 	// printf("s_time: %lu\n", s_time);
 	while (!*(th_info->is_done))
 	{
-		if (!th_info->start_starving_time)
-			th_info->start_starving_time = get_realtimestamp();
 		printf("%lu %d is thinking\n", get_timestamp(s_time), p_num);
 		if (p_num % 2 == 0)
 		{
@@ -90,10 +88,14 @@ void	*routine(void *arg)
 			pthread_mutex_lock(forks[p_num]);
 			printf("%lu %d has taken a fork\n", get_timestamp(s_time), p_num);
 		}
+		if (*(th_info->is_done))
+			break ;
 		th_info->lock_acquired = 1;
 		th_info->start_starving_time = get_realtimestamp();
 		printf("%lu %d is eating\n", get_timestamp(s_time), p_num);
 		usleep(info.t_to_eat * 1000);
+		if (*(th_info->is_done))
+			break ;
 		if (p_num % 2 == 0)
 		{
 			pthread_mutex_unlock(forks[p_num]);
@@ -107,6 +109,8 @@ void	*routine(void *arg)
 		th_info->lock_acquired = 0;
 		printf("%lu %d is sleeping\n", get_timestamp(s_time), p_num);
 		usleep(info.t_to_sleep * 1000);
+		if (*(th_info->is_done))
+			break ;
 	}
 	return (NULL);
 }

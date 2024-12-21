@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 19:35:27 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 00:01:29 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 00:43:49 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	set_thread_infos(t_info info, t_table *table)
 		th_info->forks = table->forks;
 		th_info->philo_num = i;
 		th_info->start_time = start_time;
-		th_info->start_starving_time = 0;
+		th_info->start_starving_time = start_time;
 		th_info->lock_acquired = 0;
 		th_info->is_done = table->is_done;
 		table->th_info_arr[i] = th_info;
