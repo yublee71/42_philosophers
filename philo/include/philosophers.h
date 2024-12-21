@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:51:45 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 17:33:21 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 17:54:05 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,15 @@ typedef struct s_philo
 	int				philo_num;
 	unsigned long	last_eating_time;
 }	t_philo;
+
+typedef enum e_action
+{
+	DIED = 0,
+	THINKING = 1,
+	FORK = 2,
+	EATING = 3,
+	SLEEPING = 4,
+}	t_action;
 
 int		init_table(t_table *table, t_info info);
 void	*philosopher(void *arg);
