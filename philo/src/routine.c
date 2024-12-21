@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 09:32:46 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 00:20:42 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 01:01:59 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	*routine(void *arg)
 		//6 -> 0: 0,5 / 2: 2,1 / 4: 4,3
 		else
 		{
-			usleep(info.t_to_eat * 100);
+			usleep(info.t_to_eat * 10);
 			pthread_mutex_lock(forks[(p_num + 1) % total_num]);
 			printf("%lu %d has taken a fork\n", get_timestamp(s_time), p_num);
 			pthread_mutex_lock(forks[p_num]);
