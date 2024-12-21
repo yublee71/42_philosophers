@@ -26,6 +26,7 @@ static int	eat_philo(int id, unsigned long t, t_table *table, t_philo *philo)
 	total_num = table->info.n_of_philos;
 	if (id % 2 == 0)
 	{
+		usleep(t * 10);
 		pthread_mutex_lock(&forks_mutex[id]);
 		forks[id] = 1;
 		print_msg(table, get_timestamp(s_time), id, FORK);
@@ -40,7 +41,6 @@ static int	eat_philo(int id, unsigned long t, t_table *table, t_philo *philo)
 	}
 	else
 	{
-		usleep(t * 10);
 		pthread_mutex_lock(&forks_mutex[(id + 1) % total_num]);
 		forks[(id + 1) % total_num] = 1;
 		print_msg(table, get_timestamp(s_time), id, FORK);
