@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:16:55 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 16:57:46 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 17:17:07 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ int	init_table(t_table *table, t_info info)
 	n = info.n_of_philos;
 	table->info = info;
 	table->forks = (int *)malloc(sizeof(int) * n);
-	table->philos = (t_philo **)malloc(sizeof(t_philo *) * n);
 	table->forks_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * n);
+	table->philos = (t_philo **)malloc(sizeof(t_philo *) * n);
 	if (!table->forks || !table->forks_mutex || !table->philos)
 	{
 		free_table(table);

@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:51:45 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 16:57:41 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 17:33:21 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_table
 	int				*forks; //malloc
 	struct s_philo	**philos; //malloc
 	int				is_dead;
+	pthread_t		time_logger_th;
 	pthread_mutex_t	*forks_mutex; //malloc
 	pthread_mutex_t	death_mutex;
 	pthread_mutex_t	print_mutex;
@@ -49,10 +50,8 @@ typedef struct s_philo
 }	t_philo;
 
 int		init_table(t_table *table, t_info info);
-void	philosopher(t_table *table);
-void	*routine(void *arg);
-// void	*time_logger(void *arg);
-// void	cleanup_table(t_table *table, int n_of_philos);
+void	*philosopher(void *arg);
+void	*timelogger(void *arg);
 void	free_table(t_table *table);
 
 // //utils

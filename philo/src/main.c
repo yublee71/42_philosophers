@@ -12,6 +12,44 @@
 
 #include "../include/philosophers.h"
 
+static void	cleanup_table(t_table *table)
+{
+	t_philo			**philos;
+	int				i;
+	int				n;
+	
+	philos = table->philos;
+	n = table->info.n_of_philos;
+	i = 0;
+	while (i < n)
+	{
+		pthread_join(philos[i]->philo_th, NULL);
+		i++;
+	}
+	//TODO: destroy mutex
+}
+
+static void	start_table(t_table *table)
+{
+	unsigned long	s_time;
+	t_philo			**philos;
+	int				i;
+	int				n;
+	
+	s_time = get_current_time_in_ms();
+	table->start_time = s_time;
+	philos = table->philos;
+	n = table->info.n_of_philos;
+	i = 0;
+	while (i < n)
+	{
+		philos[i]->last_eating_time = s_time;
+		pthread_create(&philos[i]->philo_th, NULL, &philosopher, (void *)philos[i]); //TODO: error check;
+		i++;
+	}
+	pthread_create(&table->time_logger_th, NULL, &timelogger, (void *)table); //TODO: error check;
+}
+
 static int	get_info(int argc, char **argv, t_info *info)
 {
 	if (argc != 5 && argc != 6)
@@ -36,7 +74,7 @@ int	main(int argc, char **argv)
 		return (1);
 	if (init_table(&table, info) < 0)
 		return (1);
-	philosopher(&table);
-	// cleanup_table(table, n_of_philos);
+	start_table(&table);
+	cleanup_table(&table);
 	return (0);
 }

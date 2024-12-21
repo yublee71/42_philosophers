@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 09:40:06 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 16:12:56 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 17:18:18 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,12 @@ void	free_table(t_table *table)
 	{
 		i = 0;
 		n = table->info.n_of_philos;
-		while (i < n && table->philos[i])
-			free(table->philos[i++]);
+		while (i < n)
+		{
+			if (table->philos[i])
+				free(table->philos[i]);
+			i++;
+		}
 		free(table->philos);
 	}
 }
