@@ -15,19 +15,23 @@
 static void	cleanup_table(t_table *table)
 {
 	t_philo			**philos;
+	pthread_mutex_t	*forks_mutex;
 	int				i;
 	int				n;
 	
 	philos = table->philos;
+	forks_mutex = table->forks_mutex;
 	n = table->info.n_of_philos;
 	i = 0;
 	while (i < n)
-	{
-		pthread_join(philos[i]->philo_th, NULL);
-		i++;
-	}
+		pthread_join(philos[i++]->philo_th, NULL);
 	pthread_join(table->timelogger_th, NULL);
-	//TODO: destroy mutex
+	i = 0;
+	while (i < n)
+		pthread_mutex_destroy(&forks_mutex[i++]);
+	pthread_mutex_destroy(&table->death_mutex);
+	pthread_mutex_destroy(&table->print_mutex);
+	free_table(table);
 }
 
 static void	start_table(t_table *table)
