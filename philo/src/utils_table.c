@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 22:06:53 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 23:01:24 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/22 00:46:54 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,31 +37,29 @@ void	free_table(t_table *table)
 
 void	print_msg(t_table *table, unsigned long time, int id, t_action a)
 {
-	pthread_mutex_lock(&table->print_mutex);
 	if (a == DIED)
 	{
+		pthread_mutex_lock(&table->print_mutex);
 		printf("%lu ", time);
 		printf("%d ", id);
 		printf("%s", "died\n");
-	}
-	else if (a == EATING)
-	{
-		printf("%lu ", time);
-		printf("%d ", id);
-		printf("%s", "is eating\n");
+		pthread_mutex_unlock(&table->print_mutex);
 	}
 	else if (is_table_active(table))
 	{
+		pthread_mutex_lock(&table->print_mutex);
 		printf("%lu ", time);
 		printf("%d ", id);
 		if (a == THINKING)
 			printf("%s", "is thinking\n");
 		else if (a == FORK)
 			printf("%s", "has taken a fork\n");
+		else if (a == EATING)
+			printf("%s", "is eating\n");
 		else if (a == SLEEPING)
 			printf("%s", "is sleeping\n");
+		pthread_mutex_unlock(&table->print_mutex);
 	}
-	pthread_mutex_unlock(&table->print_mutex);
 }
 
 static int	is_anyone_dead(t_table *table)

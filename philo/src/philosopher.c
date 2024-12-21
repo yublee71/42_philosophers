@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:38:55 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 23:13:49 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/22 00:43:50 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,11 @@ static int	eat_philo(int id, unsigned long t, t_table *table, t_philo *philo)
 	{
 		pthread_mutex_lock(&table->death_mutex);
 		philo->last_eating_time = get_current_time_in_ms();
-		philo->n_of_eating++;
 		pthread_mutex_unlock(&table->death_mutex);
 		print_msg(table, get_timestamp(s_time), id, EATING);
+		pthread_mutex_lock(&table->death_mutex);
+		philo->n_of_eating++;
+		pthread_mutex_unlock(&table->death_mutex);
 		usleep(t * 1000);
 	}
 	put_down_forks(id, total_num, table);
