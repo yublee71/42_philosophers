@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:51:45 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 21:39:35 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 23:23:23 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,27 @@ typedef enum e_action
 	SLEEPING = 4,
 }	t_action;
 
+//initiation
+int		init_info(int argc, char **argv, t_info *info);
 int		init_table(t_table *table, t_info info);
+
+//simulation
+void	start_table_simulation(t_table *table);
+void	cleanup_table_simulation(t_table *table);
+
+//thread routine functions
 void	*philosopher(void *arg);
 void	*timelogger(void *arg);
-void	free_table(t_table *table);
 
-// //utils
+//table utils
+void	free_table(t_table *table);
+void	print_msg(t_table *table, unsigned long time, int id, t_action a);
+int		is_table_active(t_table *table);
+int		is_everyone_full(t_table *table);
+
+//utils
 int				ft_atoi(const char *nptr);
 unsigned long	get_timestamp(unsigned long start_time);
 unsigned long	get_current_time_in_ms(void);
-void			print_msg(t_table *table, unsigned long time, int id, t_action a);
 
 #endif

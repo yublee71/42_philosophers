@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:24:23 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 18:53:11 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/21 22:45:48 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*timelogger(void *arg)
 	philos = table->philos;
 	info = table->info;
 	n = table->info.n_of_philos;
-	while (1)
+	while (is_table_active(table))
 	{
 		i = 0;
 		while (i < n)

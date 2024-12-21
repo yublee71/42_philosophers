@@ -6,7 +6,7 @@
 #    By: yublee <yublee@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/19 14:55:22 by yublee            #+#    #+#              #
-#    Updated: 2024/12/21 17:28:19 by yublee           ###   ########.fr        #
+#    Updated: 2024/12/21 23:24:01 by yublee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,10 +30,12 @@ NAME = philo
 
 SRC = \
 		src/main.c \
-		src/init.c \
+		src/init_info.c \
+		src/init_table.c \
+		src/simulation.c \
 		src/philosopher.c \
 		src/timelogger.c \
-		src/free.c \
+		src/utils_table.c \
 		src/utils.c \
 
 OBJ = $(SRC:%.c=$(BUILD_DIR)/%.o)
