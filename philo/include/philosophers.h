@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:51:45 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 23:13:49 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/22 18:21:41 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void			*timelogger(void *arg);
 
 //table utils
 void			free_table(t_table *table);
-void			print_msg(t_table *table, unsigned long t, int id, t_action a);
+void			print_msg(t_table *table, int id, t_action a);
 int				is_table_active(t_table *table);
 int				is_everyone_full(t_table *table);
 

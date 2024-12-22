@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:24:23 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/22 01:12:38 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/22 18:23:07 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	*timelogger(void *arg)
 			if (get_timestamp(philo->last_eating_time) >= table->info.t_to_die)
 			{
 				table->is_dead = 1;
-				print_msg(table, get_timestamp(table->start), philo->id, DIED);
+				print_msg(table, philo->id, DIED);
 				pthread_mutex_unlock(&table->death_mutex);
 				return (NULL);
 			}

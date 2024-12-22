@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 22:06:53 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/22 00:46:54 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/22 18:28:08 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,21 @@ void	free_table(t_table *table)
 	}
 }
 
-void	print_msg(t_table *table, unsigned long time, int id, t_action a)
+void	print_msg(t_table *table, int id, t_action a)
 {
 	if (a == DIED)
 	{
 		pthread_mutex_lock(&table->print_mutex);
-		printf("%lu ", time);
-		printf("%d ", id);
+		printf("%lu ", get_timestamp(table->start));
+		printf("%d ", id + 1);
 		printf("%s", "died\n");
 		pthread_mutex_unlock(&table->print_mutex);
 	}
 	else if (is_table_active(table))
 	{
 		pthread_mutex_lock(&table->print_mutex);
-		printf("%lu ", time);
-		printf("%d ", id);
+		printf("%lu ", get_timestamp(table->start));
+		printf("%d ", id + 1);
 		if (a == THINKING)
 			printf("%s", "is thinking\n");
 		else if (a == FORK)
@@ -86,7 +86,7 @@ int	is_everyone_full(t_table *table)
 	pthread_mutex_lock(&table->death_mutex);
 	while (i < n && table->info.n_of_times_to_eat)
 	{
-		if (philos[i]->n_of_eating != table->info.n_of_times_to_eat)
+		if (philos[i]->n_of_eating < table->info.n_of_times_to_eat)
 			break ;
 		i++;
 	}
