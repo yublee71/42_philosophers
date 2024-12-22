@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:38:55 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/22 18:32:10 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/22 21:25 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static int	pick_up_forks(int id, int t_num, t_table *table)
 {
 	if (id % 2 == 0)
 	{
-		usleep(1000);
 		pthread_mutex_lock(&table->forks_mutex[id]);
 		table->forks[id] = 1;
 		print_msg(table, id, FORK);
@@ -104,6 +103,8 @@ void	*philosopher(void *arg)
 			print_msg(table, id, THINKING);
 		if (is_table_active(table))
 		{
+			if (id % 2 == 0 && philo->n_of_eating > 0)
+				usleep(1000);
 			if (eat_philo(id, info.t_to_eat, table, philo) < 0)
 				break ;
 		}
