@@ -6,11 +6,20 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 22:02:58 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 23:21:50 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/28 12:14:41 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
+
+void	optimized_usleep(unsigned long t)
+{
+	unsigned long	start_time;
+
+	start_time = get_current_time_in_ms();
+	while (get_current_time_in_ms() - start_time < t)
+		usleep(1000);
+}
 
 int	ft_atoi(const char *nptr)
 {

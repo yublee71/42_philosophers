@@ -74,7 +74,7 @@ static int	eat_philo(int id, unsigned long t, t_table *table, t_philo *philo)
 		pthread_mutex_lock(&table->death_mutex);
 		philo->n_of_eating++;
 		pthread_mutex_unlock(&table->death_mutex);
-		usleep(t * 1000);
+		optimized_usleep(t);
 	}
 	put_down_forks(id, total_num, table);
 	return (0);
@@ -83,7 +83,7 @@ static int	eat_philo(int id, unsigned long t, t_table *table, t_philo *philo)
 static void	sleep_philo(int id, unsigned long t, t_table *table)
 {
 	print_msg(table, id, SLEEPING);
-	usleep(t * 1000);
+	optimized_usleep(t);
 }
 
 void	*philosopher(void *arg)
@@ -103,7 +103,7 @@ void	*philosopher(void *arg)
 			print_msg(table, id, THINKING);
 		if (is_table_active(table))
 		{
-			if (id % 2 == 0 && philo->n_of_eating > 0)
+			if (id % 2 == 0)
 				usleep(1000);
 			if (eat_philo(id, info.t_to_eat, table, philo) < 0)
 				break ;

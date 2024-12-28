@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:51:45 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/22 18:21:41 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/28 11:53:59 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int				is_table_active(t_table *table);
 int				is_everyone_full(t_table *table);
 
 //utils
+void			optimized_usleep(unsigned long t);
 int				ft_atoi(const char *nptr);
 unsigned long	get_timestamp(unsigned long start);
 unsigned long	get_current_time_in_ms(void);
