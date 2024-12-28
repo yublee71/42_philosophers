@@ -104,7 +104,7 @@ void	*philosopher(void *arg)
 		if (is_table_active(table))
 		{
 			if (id % 2 == 0)
-				usleep(1000);
+				optimized_usleep(1);
 			if (eat_philo(id, info.t_to_eat, table, philo) < 0)
 				break ;
 		}
