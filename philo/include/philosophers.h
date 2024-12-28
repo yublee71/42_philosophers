@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:51:45 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/28 11:53:59 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/28 13:15:07 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@
 # include <sys/time.h>
 # include <pthread.h>
 # include <stdio.h>
+
+# define STR_ERR_INPUT		"Error: Invalid input.\n"
+# define STR_ERR_ARG_COUNT	"Error: Invalid number of arguments.\n"
+# define STR_ERR_ARG_VALUE	"Error: Invalid argument value.\n"
+# define STR_ERR_MALLOC		"Error: Could not allocate memory.\n"
+# define STR_ERR_THREAD		"Error: Could not create thread.\n"
+# define STR_ERR_MUTEX		"Error: Could not create mutex.\n"
 
 typedef struct s_info
 {
@@ -78,6 +85,7 @@ int				is_table_active(t_table *table);
 int				is_everyone_full(t_table *table);
 
 //utils
+int				err_msg(char *msg, int return_val);
 void			optimized_usleep(unsigned long t);
 int				ft_atoi(const char *nptr);
 unsigned long	get_timestamp(unsigned long start);

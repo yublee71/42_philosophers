@@ -6,11 +6,17 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 22:02:58 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/28 12:14:41 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/28 13:28:48 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
+
+int	err_msg(char *msg, int return_val)
+{
+	printf("%s", msg);
+	return (return_val);
+}
 
 void	optimized_usleep(unsigned long t)
 {

@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 21:53:49 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/25 21:52:34 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/28 13:21:31 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	main(int argc, char **argv)
 
 	if (init_info(argc, argv, &info) < 0
 		|| init_table(&table, info) < 0
-		|| start_table_simulation(&table) < 0) //TODO: err mssg
-		return (1);
+		|| start_table_simulation(&table) < 0)
+		return (EXIT_FAILURE);
 	cleanup_table_simulation(&table);
-	return (0);
+	return (EXIT_SUCCESS);
 }

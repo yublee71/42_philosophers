@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 23:13:34 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/21 23:32:15 by yublee           ###   ########.fr       */
+/*   Updated: 2024/12/28 13:17:00 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ static int	valid_input(char **argv)
 int	init_info(int argc, char **argv, t_info *info)
 {
 	if (argc != 5 && argc != 6)
-		return (-1);
+		return (err_msg(STR_ERR_ARG_COUNT, -1));
 	if (valid_input(argv) < 0)
-		return (-1);
+		return (err_msg(STR_ERR_ARG_VALUE, -1));
 	info->n_of_philos = ft_atoi(argv[1]);
 	info->t_to_die = (unsigned long)ft_atoi(argv[2]);
 	info->t_to_eat = (unsigned long)ft_atoi(argv[3]);
@@ -51,7 +51,7 @@ int	init_info(int argc, char **argv, t_info *info)
 	{
 		info->n_of_times_to_eat = ft_atoi(argv[5]);
 		if (info->n_of_times_to_eat == 0)
-			return (-1);
+			return (err_msg(STR_ERR_ARG_VALUE, -1));
 	}
 	else
 		info->n_of_times_to_eat = 0;
