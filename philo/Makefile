@@ -6,7 +6,7 @@
 #    By: yublee <yublee@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/19 14:55:22 by yublee            #+#    #+#              #
-#    Updated: 2025/01/19 14:23:45 by yublee           ###   ########.fr        #
+#    Updated: 2025/01/19 15:04:16 by yublee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ BUILD_DIR = build
 all: $(NAME)
 
 $(NAME): $(BUILD_DIR) $(OBJ)
-	$(CC) $(OBJ) -g -o $@
+	$(CC) $(OBJ) -o $@
 
 $(BUILD_DIR):
 	mkdir -pv $(BUILD_DIR) $(patsubst %,$(BUILD_DIR)/%,$(DIRS))
