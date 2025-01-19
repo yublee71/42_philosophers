@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 22:06:53 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/22 18:28:08 by yublee           ###   ########.fr       */
+/*   Updated: 2025/01/19 15:30:31 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,13 @@ int	is_everyone_full(t_table *table)
 	int		n;
 	t_philo	**philos;
 
+	if (!table->info.n_of_times_to_eat)
+		return (0);
 	i = 0;
 	n = table->info.n_of_philos;
 	philos = table->philos;
 	pthread_mutex_lock(&table->death_mutex);
-	while (i < n && table->info.n_of_times_to_eat)
+	while (i < n)
 	{
 		if (philos[i]->n_of_eating < table->info.n_of_times_to_eat)
 			break ;
