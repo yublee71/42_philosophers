@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 23:16:55 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/28 13:20:21 by yublee           ###   ########.fr       */
+/*   Updated: 2025/01/19 14:45:28 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,9 @@ int	init_table(t_table *table, t_info info)
 	table->philos = (t_philo **)malloc(sizeof(t_philo *) * n);
 	if (!table->forks || !table->forks_mutex || !table->philos
 		|| init_philos(table, n) < 0)
-	{
-		free_table(table);
 		return (err_msg(STR_ERR_MALLOC, -1));
-	}
 	if (init_mutex(table, n) < 0)
-	{
-		free_table(table);
 		return (err_msg(STR_ERR_MUTEX, -1));
-	}
 	table->is_dead = 0;
 	return (0);
 }
