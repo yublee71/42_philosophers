@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 23:13:34 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/28 13:17:00 by yublee           ###   ########.fr       */
+/*   Updated: 2025/01/20 18:24:38 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ int	init_info(int argc, char **argv, t_info *info)
 	info->t_to_die = (unsigned long)ft_atoi(argv[2]);
 	info->t_to_eat = (unsigned long)ft_atoi(argv[3]);
 	info->t_to_sleep = (unsigned long)ft_atoi(argv[4]);
+	if (!info->n_of_philos || !info->t_to_die
+		|| !info->t_to_eat || !info->t_to_sleep)
+		return (err_msg(STR_ERR_ARG_VALUE, -1));
 	if (argc == 6)
 	{
 		info->n_of_times_to_eat = ft_atoi(argv[5]);
