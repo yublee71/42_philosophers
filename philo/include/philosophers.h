@@ -6,7 +6,7 @@
 /*   By: yublee <yublee@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:51:45 by yublee            #+#    #+#             */
-/*   Updated: 2024/12/28 13:15:07 by yublee           ###   ########.fr       */
+/*   Updated: 2025/01/20 18:34:38 by yublee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ typedef struct s_info
 typedef struct s_table
 {
 	t_info			info;
-	int				*forks;
 	struct s_philo	**philos;
-	int				is_dead;
-	pthread_t		timelogger_th;
+	int				*forks;
 	pthread_mutex_t	*forks_mutex;
+	int				is_dead;
 	pthread_mutex_t	death_mutex;
 	pthread_mutex_t	print_mutex;
+	pthread_t		timelogger_th;
 	unsigned long	start;
 }	t_table;
 
